@@ -1,2 +1,2 @@
-# dplayer
+# cqplayer
 just a player
