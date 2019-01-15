@@ -58,13 +58,7 @@ bool mythread::is_suspended() const {
 }
 
 void mythread::threadProc() {
-
-	while (_suspended) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(50));
-	}
-
 	while (true) {
-
 		std::unique_lock<std::mutex> lck(_mutex);
 		_cond.wait_for(lck, std::chrono::milliseconds(_intervals), [this]() {
 			return _stop && !_suspended;
