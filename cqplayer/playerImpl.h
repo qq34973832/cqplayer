@@ -60,7 +60,6 @@ private:
 
 private:
 	int32_t initparams();
-	void resetFrameQ();
 
 	int32_t installSource(comPtr<sourceInterface> source);
 	void uninstallSource();
@@ -74,8 +73,6 @@ private:
 	syncpos _offset;
 	int64_t _steps;
 	shiftrate _speed;
-
-	std::queue<comPtr<frameInterface>> _qframes;
 
 	comPtr<sourceInterface> _source;
 	comPtr<renderInterface> _render;

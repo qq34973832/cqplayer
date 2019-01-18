@@ -24,23 +24,23 @@ syncpos clocksource::now() {
 		_lastTimepoint = now;
 		_pos += diff.count();
 	}
-	return _pos / 100;
+	return ns_to_100ns(_pos);
 }
 
 syncpos clocksource::reset(syncpos pos) {
 	_lastTimepoint = std::chrono::high_resolution_clock::now();
-	_pos = pos * 100;
-	return _pos;
+	_pos = ns_from_100ns(pos);
+	return pos;
 }
 
 syncpos clocksource::pause() {
 	_pos += (std::chrono::high_resolution_clock::now() - _lastTimepoint).count();
 	_paused.exchange(true);
-	return _pos / 100;
+	return ns_to_100ns(_pos);
 }
 
 syncpos clocksource::resume() {
 	_lastTimepoint = std::chrono::high_resolution_clock::now();
 	_paused.exchange(false);
-	return _pos / 100;
+	return ns_to_100ns(_pos);
 }

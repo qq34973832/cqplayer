@@ -38,5 +38,6 @@ private:
 	int32_t fillFrame(comPtr<frameInterface> frame);
 
 private:
-	comPtr<frameInterface> _cbFrame;
+	const framerate _fps = 25;
+	syncpos _pos;
 };

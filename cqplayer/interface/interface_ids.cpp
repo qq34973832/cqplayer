@@ -16,6 +16,7 @@ implement_interface_id(speedInterface);
 implement_interface_id(stateInterface);
 
 implement_interface_id(frameInterface);
+implement_interface_id(frameConfInterface);
 implement_interface_id(clockInterface);
 implement_interface_id(sourceInterface);
 implement_interface_id(renderInterface);
