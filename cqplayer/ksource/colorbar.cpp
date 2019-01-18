@@ -42,8 +42,16 @@ int32_t colorbar::preroll(bool reversePlay) {
 }
 
 comPtr<frameInterface> colorbar::pop(int32_t waitms) {
-	comPtr<frameInterface> ret(this->generateFrame());
+	comPtr<frameInterface> ret = coCreate<dummyframe, frameInterface>(nullptr, nullptr);;
 	this->fillFrame(ret);
+
+	comPtr<frameConfInterface> frameConfPtr;
+	ret->queryInterface(interface_id(frameConfInterface), (void**)&frameConfPtr);
+
+	syncpos dur = length(SECOND_100_NS) / this->fps();
+	_pos += dur;
+	frameConfPtr->setPos(_pos);
+	frameConfPtr->setLen(dur);
 
 	printf("colorbar::pop\n");
 
@@ -56,36 +64,25 @@ int32_t colorbar::close() {
 
 int32_t colorbar::rewind() {
 	int32_t ret = ok;
-
+	_pos = 0;
 	return ret;
 }
 
 int32_t colorbar::seek(syncpos pos) {
 	int32_t ret = ok;
-
+	_pos = pos;
 	return ret;
 }
 
 int32_t colorbar::forward() {
 	int32_t ret = ok;
-
+	_pos += length(SECOND_100_NS) / _fps;
 	return ret;
 }
 
 int32_t colorbar::backward() {
 	int32_t ret = ok;
-
-	return ret;
-}
-
-comPtr<frameInterface> colorbar::generateFrame() {
-	comPtr<frameInterface> ret;
-
-	if (_cbFrame == nullptr) {
-		_cbFrame = coCreate<dummyframe, frameInterface>(nullptr, nullptr);
-	}
-	ret = _cbFrame;
-
+	_pos -= length(SECOND_100_NS) / _fps;
 	return ret;
 }
 

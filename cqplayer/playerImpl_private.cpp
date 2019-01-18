@@ -17,10 +17,6 @@ int32_t playerImpl::initparams() {
 	return ret;
 }
 
-void playerImpl::resetFrameQ() {
-	_qframes = std::queue<comPtr<frameInterface>>();
-}
-
 int32_t playerImpl::installSource(comPtr<sourceInterface> source) {
 	int32_t ret = ok;
 

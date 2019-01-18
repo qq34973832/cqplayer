@@ -2,6 +2,8 @@
 
 #include "renderInterface.h"
 
+#include <list>
+
 class nullrender
 	: public baseInterfaceImpl
 	, public renderInterface {
@@ -20,4 +22,8 @@ private:
 	virtual int32_t push(comPtr<frameInterface> framePtr) override;
 	virtual int32_t synchronize(syncpos pos) override;
 	virtual int32_t close() override;
+
+private:
+	syncpos _pos;
+	std::list<comPtr<frameInterface>> _frameList;
 };

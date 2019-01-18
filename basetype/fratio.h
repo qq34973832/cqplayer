@@ -136,17 +136,43 @@ public:
 		_den = v._den;
 		return *this;
 	}
+
+public:
 	bool operator==(const t0 v) {
 		return _num == _den * v;
 	}
-	bool operator!=(const fratio& v) {
+	bool operator==(const fratio& v) {
 		return _num * v._den == _den * v._num;
 	}
 	bool operator!=(const t0 v) {
 		return _num != _den * v;
 	}
-	bool operator==(const fratio& v) {
+	bool operator!=(const fratio& v) {
 		return _num * v._den != _den * v._num;
+	}
+	bool operator>(const t0 v) {
+		return _num > _den * v;
+	}
+	bool operator>(const fratio& v) {
+		return _num * v._den > _den * v._num;
+	}
+	bool operator>=(const t0 v) {
+		return _num >= _den * v;
+	}
+	bool operator>=(const fratio& v) {
+		return _num * v._den >= _den * v._num;
+	}
+	bool operator<(const t0 v) {
+		return _num < _den * v;
+	}
+	bool operator<(const fratio& v) {
+		return _num * v._den < _den * v._num;
+	}
+	bool operator<=(const t0 v) {
+		return _num <= _den * v;
+	}
+	bool operator<=(const fratio& v) {
+		return _num * v._den <= _den * v._num;
 	}
 
 private:

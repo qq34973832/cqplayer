@@ -2,7 +2,6 @@
 #include "playerImpl.h"
 
 #include <assert.h>
-#include <math.h>
 
 playerImpl::playerImpl(baseInterface * pOuter)
 	: baseInterfaceImpl(pOuter)
@@ -84,7 +83,6 @@ int32_t playerImpl::stop() {
 	playerState prevState = _state.exchange(playerState_stopped);
 	assert(prevState != playerState_closed);
 
-	this->resetFrameQ();
 	_clock->pause();
 
 	return ret;
@@ -98,7 +96,6 @@ int32_t playerImpl::close() {
 	std::unique_lock<std::mutex> lck(_mutex);
 	playerState prevState = _state.exchange(playerState_closed);
 
-	this->resetFrameQ();
 	_clock->pause();
 
 	this->uninstallSource();
@@ -116,7 +113,6 @@ int32_t playerImpl::rewind() {
 	_steps = 0;
 	_offset = 0;
 
-	this->resetFrameQ();
 	_clock->reset(0);
 	{
 		comPtr<ctrlInterface> sourceCtrl;
@@ -139,7 +135,6 @@ int32_t playerImpl::seek(syncpos pos) {
 	_steps = 0;
 	_offset = pos;
 
-	this->resetFrameQ();
 	_clock->reset(pos);
 	{
 		comPtr<ctrlInterface> sourceCtrl;

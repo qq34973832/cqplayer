@@ -17,7 +17,7 @@ public:
 	declare_ref_op(baseInterfaceImpl);
 	virtual int32_t queryInterface(const int32_t riid, void** ppv) override;
 
-public:
+private:
 	// clockInterface
 	virtual syncpos now() override;
 	virtual syncpos reset(syncpos pos) override;
