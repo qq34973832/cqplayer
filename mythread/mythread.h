@@ -15,7 +15,7 @@ public:
 	int32_t finish();
 
 public:
-	bool is_suspended() const;
+	bool is_suspended();
 
 private:
 	void threadProc();
@@ -24,7 +24,6 @@ private:
 protected:
 	std::mutex _mutex;
 	std::condition_variable _cond;
-	int32_t _intervals;
 
 private:
 	bool _stop, _suspended;
