@@ -32,7 +32,8 @@ public:
 
 private:
 	// mythread
-	virtual void _1step();
+	virtual bool _nowait() override;
+	virtual void _1step() override;
 
 private:
 	// playerInterface
