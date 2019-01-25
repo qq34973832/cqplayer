@@ -46,16 +46,17 @@ int32_t playerImpl::open(comPtr<sourceInterface> source, comPtr<renderInterface>
 int32_t playerImpl::play(bool reversePlay) {
 	int32_t ret = ok;
 
-	ret = this->resume();
+	{
+		std::unique_lock<std::mutex> lck(_mutex);
+		playerState prevState = _state.exchange(playerState_playing);
+		assert(prevState != playerState_closed);
 
-	std::unique_lock<std::mutex> lck(_mutex);
-	playerState prevState = _state.exchange(playerState_playing);
-	assert(prevState != playerState_closed);
+		_reversePlay = reversePlay;
+		ret = _source->preroll(reversePlay);
 
-	_reversePlay = reversePlay;
-	ret = _source->preroll(reversePlay);
-
-	_clock->resume();
+		_clock->resume();
+	};
+	this->resume();
 
 	return ret;
 }
@@ -63,13 +64,14 @@ int32_t playerImpl::play(bool reversePlay) {
 int32_t playerImpl::pause() {
 	int32_t ret = ok;
 
+	{
+		std::unique_lock<std::mutex> lck(_mutex);
+		playerState prevState = _state.exchange(playerState_paused);
+		assert(prevState != playerState_closed);
+
+		_clock->pause();
+	};
 	ret = this->resume();
-
-	std::unique_lock<std::mutex> lck(_mutex);
-	playerState prevState = _state.exchange(playerState_paused);
-	assert(prevState != playerState_closed);
-
-	_clock->pause();
 
 	return ret;
 }
