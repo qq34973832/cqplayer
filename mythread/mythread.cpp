@@ -58,12 +58,14 @@ void mythread::threadProc() {
 	while (true) {
 		std::unique_lock<std::mutex> lck(_mutex);
 		_cond.wait_for(lck, std::chrono::milliseconds(SUSPENDED_INTERVALS), [this]() {
-			return _stop || !_suspended;
+			return _stop || (!_suspended && this->_nowait());
 		});
 
 		if (_stop) {
 			break;
 		} else if (_suspended) {
+			continue;
+		} else if (!this->_nowait()) {
 			continue;
 		}
 

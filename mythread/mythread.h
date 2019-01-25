@@ -19,6 +19,8 @@ public:
 
 private:
 	void threadProc();
+
+	virtual bool _nowait() = 0;
 	virtual void _1step() = 0;
 
 protected:
